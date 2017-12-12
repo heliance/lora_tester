@@ -3,7 +3,8 @@
 ### Example user template
 
 # IntelliJ project files
+/lora_mqtt
 data_to_write.txt
 formatted_topic2.json
 topic_data2
-.idea
+.*

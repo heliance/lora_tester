@@ -12,7 +12,7 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     message = str(msg.payload)
-    print(msg.topic + " " + message)
+    print(msg.topic + ":    " + message)
     with open(filename, 'a') as f_obj:
         f_obj.writelines(message + "\n")
     # print(msg.payload)

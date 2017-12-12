@@ -1,4 +1,4 @@
-#!/home/lance/PycharmProjects/LoRa/lora_mqtt/bin/python2
+#!/home/lance/PycharmProjects/LoRa/lora_mqtt/bin/python3.5
 
 # -*- coding: utf-8 -*-
 import re
