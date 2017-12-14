@@ -1,13 +1,16 @@
 import paho.mqtt.client as mqtt
 import subprocess
+import time
+
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code: " + str(rc))
+    print("Info: Connected with result code: " + str(rc) + " (OK)")
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(user_topic)
+
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -17,11 +20,16 @@ def on_message(client, userdata, msg):
         f_obj.writelines(message + "\n")
     # print(msg.payload)
 
+
 def on_disconnect(client, userdata, rc):
     if rc != 0:
         print("Unexpected disconnection.")
     else:
-        print("Disconnected.")
+        print("Disconnected")
+
+
+def on_log(client, userdata, level, buf):
+    print("Log: ", buf)
 
 
 user_topic = str(input("Please, provide required topic for logging: "))
@@ -33,16 +41,28 @@ if filename:
 else:
     subprocess.call(['touch', filename])
 
+
 client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.on_disconnect = on_disconnect
 
-client.connect("localhost", 1883, 60)
+try:
+    client.on_log = on_log
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.on_disconnect = on_disconnect
 
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
+    client.connect("localhost", 1883, 60)
+    client.loop_forever(timeout=1)
+    # client.loop_start()
+    # time.sleep(5)
+    # client.loop_stop()
+    # client.disconnect()
 
-client.loop_forever()
+    # Blocking call that processes network traffic, dispatches callbacks and
+    # handles reconnecting.
+    # Other loop*() functions are available that give a threaded interface and
+    # a manual interface.
+    client.loop_forever()
+
+except KeyboardInterrupt:
+    client.loop_stop()
+    client.disconnect()
