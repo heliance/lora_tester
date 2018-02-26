@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import subprocess
-import time
+# import time
 
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -32,37 +32,39 @@ def on_log(client, userdata, level, buf):
     print("Log: ", buf)
 
 
-user_topic = str(input("Please, provide required topic for logging: "))
-print("Logging has been set to: " + user_topic)
-
-filename = 'topic_data_log'
-if filename:
-    pass
-else:
-    subprocess.call(['touch', filename])
-
-
-client = mqtt.Client()
-
 try:
-    client.on_log = on_log
-    client.on_connect = on_connect
-    client.on_message = on_message
-    client.on_disconnect = on_disconnect
+    user_topic = str(input("Please, provide required topic for logging: "))
+    print("Logging has been set to: " + user_topic)
 
-    client.connect("localhost", 1883, 60)
-    client.loop_forever(timeout=1)
-    # client.loop_start()
-    # time.sleep(5)
-    # client.loop_stop()
-    # client.disconnect()
+    filename = 'topic_data_log'
+    if filename:
+        pass
+    else:
+        subprocess.call(['touch', filename])
 
-    # Blocking call that processes network traffic, dispatches callbacks and
-    # handles reconnecting.
-    # Other loop*() functions are available that give a threaded interface and
-    # a manual interface.
-    client.loop_forever()
+    client = mqtt.Client()
 
-except KeyboardInterrupt:
-    client.loop_stop()
-    client.disconnect()
+    try:
+        client.on_log = on_log
+        client.on_connect = on_connect
+        client.on_message = on_message
+        client.on_disconnect = on_disconnect
+
+        client.connect("localhost", 1883, 60)
+        # client.loop_start()
+        # time.sleep(5)
+        # client.loop_stop()
+        # client.disconnect()
+
+        # Blocking call that processes network traffic, dispatches callbacks
+        # and handles reconnecting.
+        # Other loop*() functions are available that give a threaded interface
+        # and a manual interface.
+        client.loop_forever()
+
+    except KeyboardInterrupt:
+        client.loop_stop()
+        client.disconnect()
+
+except ValueError:
+    print("Invalid topic entry! Disconnected.")
