@@ -10,41 +10,47 @@ BUTTON = 32
 
 try:
 	while True:
-		# Use the BOARD numbering system
+		# Use the BOARD numbering system.
 		GPIO.setmode(GPIO.BOARD)
+		LEDS = [LED_R, LED_Y, LED_B]
 
-		# Set up LED pins as output
-		GPIO.setup(LED_R, GPIO.OUT)
-		GPIO.setup(LED_Y, GPIO.OUT)
-		GPIO.setup(LED_B, GPIO.OUT)
+		# Set up LED pins as output.
+		for led in LEDS:
+			GPIO.setup(led, GPIO.OUT)
 
-		# Set up button pin as input with internal pull-up
-		GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		# Set up button pin as input with internal pull-up.
+		# GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP).
 
-		# Turn on LEDs with 1 second delay
-		GPIO.output(LED_R, GPIO.HIGH)
-		time.sleep(1)
-		GPIO.output(LED_Y, GPIO.HIGH)
-		time.sleep(1)
-		GPIO.output(LED_B, GPIO.HIGH)
-		time.sleep(1)
+		# Turn on LEDs with 0.5 second delay.
+		for led in LEDS:
+			GPIO.output(led, GPIO.HIGH)
+			time.sleep(0.5)
 
+		time.sleep(2)
 		# Wait for button press
-		#print('Waiting for button press...')
-		#try:
+		# print('Waiting for button press...')
+		# try:
 		#    GPIO.wait_for_edge(BUTTON, GPIO.FALLING)
-		#except KeyboardInterrupt:
+		# except KeyboardInterrupt:
 		#    print('Aborted.')
 		#    pass
 
-		# Turn off LEDs again with 1 second delay
-		GPIO.output(LED_R, GPIO.LOW)
-		time.sleep(1)
-		GPIO.output(LED_Y, GPIO.LOW)
-		time.sleep(1)
-		GPIO.output(LED_B, GPIO.LOW)
-		time.sleep(1)
+		# Turn off LEDs again with 1 second delay.
+		for led in LEDS:
+			GPIO.output(led, GPIO.LOW)
+			time.sleep(0.5)
+
+		time.sleep(2)
+		LEDS.reverse()
+
+		for led in LEDS:
+			GPIO.output(led, GPIO.HIGH)
+			time.sleep(1)
+
+		for led in LEDS:
+			GPIO.output(led, GPIO.LOW)
+			time.sleep(1)
 
 except KeyboardInterrupt:
-	# Clean up
+	# Clean up.
 	GPIO.cleanup()
