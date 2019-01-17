@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+"""This script is intended for use with Python2.7 ver. interpreter."""
 import smbus
 import time
 import os
@@ -36,7 +37,7 @@ while True:
 
     # Convert the data.
     cTemp = ((data0 * 256 + data1) * 175.72 / 65536.0) - 46.85
-    fTemp = cTemp * 1.8 + 32
+    # fTemp = cTemp * 1.8 + 32
 
     # Output data to screen.
     print "Влажность: %.2f %%" % humidity
@@ -58,6 +59,6 @@ while True:
     os.system(call)
     os.system(call2)
 
-    print "Temp measurement (%.2f C) has been sent to the DB." % cTemp
-    print "Temp measurement (%.2f percents) has been sent to the DB." % humidity
+    # print "Temp measurement (%.2f C) has been sent to the DB." % cTemp
+    # print "Temp measurement (%.2f percents) has been sent to the DB." % humidity
     time.sleep(60)

@@ -3,9 +3,6 @@ from time import sleep
 from Adafruit_CharLCD import Adafruit_CharLCD
 
 
-call = './reset_ica.sh'
-subprocess.call(call)
-
 lcd = Adafruit_CharLCD(rs=26, en=19, d4=13, d5=27, d6=17, d7=22,
                        cols=16, lines=2)
 

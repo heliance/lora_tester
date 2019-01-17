@@ -2,14 +2,11 @@
 
 import smbus
 import time
-import subprocess
 from Adafruit_CharLCD import Adafruit_CharLCD
 
 bus = smbus.SMBus(1)
 lcd = Adafruit_CharLCD(rs=26, en=19, d4=13, d5=27, d6=17, d7=22,
                        cols=16, lines=2)
-call = './reset_ica.sh'
-subprocess.call(call)
 
 while True:
     bus.write_byte(0x40, 0xF5)
