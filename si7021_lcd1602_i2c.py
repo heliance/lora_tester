@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import smbus
 import time
 import i2c_lcd_driver
@@ -35,6 +36,9 @@ while True:
              "'https://172.16.0.225:8086/write?db=lora_gw'" +
              " --data-binary " + "'humidity,GW_ID=1 value=" +
              str(humidity) + "'" + ">/dev/null")
+
+    os.system(call)
+    os.system(call2)
 
     lcd.lcd_clear()
     lcd.lcd_display_string('Temp.: ' + cTemp[:5] + 'C', 1)
